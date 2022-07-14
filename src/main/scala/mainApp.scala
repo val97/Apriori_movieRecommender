@@ -35,7 +35,7 @@ object mainApp {
 
   def main(args: Array[String]): Unit = {
 
-    def filter_candidates(transactions: Iterator[Iterable[Int]], candidates: Set[Set[Int]], k: Int) : Iterator[(List[Int], Int)] = {
+    def local_support_count(transactions: Iterator[Iterable[Int]], candidates: Set[Set[Int]], k: Int) : Iterator[(List[Int], Int)] = {
       var transactionSet = new ListBuffer[Set[Int]]()
       for(transaction <- transactions){
         transactionSet += transaction.toSet
@@ -69,13 +69,8 @@ object mainApp {
     val min_support = min_support_coef * totalTransactions
 
     // L1 generation
-    val frequent_singleton = transactions.flatMap(transaction => transaction.map(movieId => (movieId, 1))).reduceByKey((x, y) => x + y).filter(x => x._2 >= min_support).map(_._1).collect()
-    var l1 = ListBuffer[List[Int]]()
-    for(movieId <- frequent_singleton){
-      val item_as_list = List[Int](movieId)
-      l1 += item_as_list
-    }
-    var last_frequent_itemsets = sort(l1.toList).toList.map(_.toList)
+    val frequent_singleton = transactions.flatMap(transaction => transaction.map(movieId => (movieId, 1))).reduceByKey((x, y) => x + y).filter(x => x._2 >= min_support).map(z => List[Int](z._1)).collect().toList
+    var last_frequent_itemsets = sort(frequent_singleton).toList.map(_.toList)
     var frequent_itemsets = ListBuffer[List[Int]]()
     frequent_itemsets ++= last_frequent_itemsets
 
@@ -83,7 +78,7 @@ object mainApp {
     var k = 2
     while(last_frequent_itemsets.nonEmpty) {
       val candidates = candidates_generation(last_frequent_itemsets, k)
-      val candidatesPartitions = transactions.mapPartitions(x => filter_candidates(x, candidates, k))
+      val candidatesPartitions = transactions.mapPartitions(x => local_support_count(x, candidates, k))
       val new_frequent_itemsets = candidatesPartitions.reduceByKey((x,y) => x + y).filter(z => z._2 >= min_support)
       last_frequent_itemsets = sort(new_frequent_itemsets.map(x => x._1.sorted).collect().toList).toList.map(_.toList)
       frequent_itemsets ++= last_frequent_itemsets
