@@ -9,6 +9,8 @@
 3. Crea un [cluster Dataproc](https://cloud.google.com/dataproc/docs/guides/create-cluster) su Compute Engine
   - assicurati abbia come immagine `2.0 (Debian 10, Hadoop 3.2, Spark 3.1)`
   - seleziona quanti e che tipo di nodi avrà il cluster
+  
+  ![screenshot](img/cluster1.png)
 4. Vai nella pagina del cluster appena creato ed invia un nuovo job:
   - nella sezione *Job type* seleziona Spark
   - nella sezione *Main class or jar* scrivi l'indirizzo al file JAR caricato sul bucket (Es: *gs://my_bucket_name/myFile.jar*)
