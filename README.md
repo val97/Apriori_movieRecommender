@@ -15,6 +15,7 @@
   - nella sezione *Job type* seleziona Spark
   - nella sezione *Main class or jar* scrivi l'indirizzo al file JAR caricato sul bucket
   - nella sezione *Argomenti* inserisci tutti gli argomenti che il codice prende in input
+  
   ![screenshot](img/job1.png)
 
 
