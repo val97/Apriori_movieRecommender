@@ -6,7 +6,7 @@
 2. Crea un bucket [Cloud Storage](https://cloud.google.com/storage/docs/creating-buckets) e caricaci:
   - il file JAR del codice
   - i dataset
-3. Crea un [cluster Dataproc](https://cloud.google.com/dataproc/docs/guides/create-cluster) su Compute Engine
+3. Crea un [cluster Dataproc]<https://cloud.google.com/dataproc/docs/guides/create-cluster  height="100" >  su Compute Engine
   - assicurati abbia come immagine `2.0 (Debian 10, Hadoop 3.2, Spark 3.1)`
   - seleziona quanti e che tipo di nodi avrà il cluster
   
